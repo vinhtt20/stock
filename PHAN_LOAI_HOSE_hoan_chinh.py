@@ -102,9 +102,9 @@ BUCKET_TO_LABEL = {
 # Đây chỉ là best-effort; chỉnh trực tiếp dict này khi cần.
 # ---------------------------------------------------------------------------
 GAN_TAY = {
-    "ADG": "Dịch vụ tiêu dùng",  # CẦN XÁC NHẬN
-    "YEG": "Dịch vụ tiêu dùng",  # CẦN XÁC NHẬN
-    "CLC": "Hàng tiêu dùng",     # CẦN XÁC NHẬN
+    "ADG": "Dịch vụ tiêu dùng",  # đã xác nhận 03/06/2026
+    "YEG": "Dịch vụ tiêu dùng",  # đã xác nhận 03/06/2026
+    "CLC": "Hàng tiêu dùng",     # đã xác nhận 03/06/2026
 }
 
 
@@ -629,8 +629,8 @@ def main(argv):
         help="Đưa bất động sản vào mẫu phi tài chính (mặc định loại).",
     )
     parser.add_argument(
-        "--source", choices=["auto", "vci", "kbs"], default="auto",
-        help="auto=VCI trước rồi fallback KBS; vci/kbs=ép nguồn.",
+        "--source", choices=["auto", "vci", "kbs"], default="kbs",
+        help="Mặc định kbs (7 nhóm ICB, chốt DoD); auto=VCI rồi fallback KBS; vci=ép VCI.",
     )
     args = parser.parse_args(argv)
 

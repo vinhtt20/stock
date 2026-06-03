@@ -18,11 +18,11 @@ ngành **ICB cấp 1**. Sản phẩm là bước chuẩn bị mẫu cho nghiên 
 ## Chạy
 
 ```bash
-# Mặc định: ưu tiên VCI, tự fallback KBS
+# Mặc định: KBS (7 nhóm ICB — số liệu chốt theo DoD)
 uv run --with vnstock --with pandas --with openpyxl python PHAN_LOAI_HOSE_hoan_chinh.py
 
-# Ép nguồn KBS (7 nhóm ICB — tái lập số liệu DoD)
-python PHAN_LOAI_HOSE_hoan_chinh.py --source kbs
+# Thử VCI trước, lỗi thì fallback KBS
+python PHAN_LOAI_HOSE_hoan_chinh.py --source auto
 
 # Ép nguồn VCI (ICB thật, 9 nhóm — tách Dầu khí + Viễn thông)
 python PHAN_LOAI_HOSE_hoan_chinh.py --source vci
