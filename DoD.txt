@@ -1,0 +1,193 @@
+ĐỊNH NGHĨA HOÀN THÀNH (DEFINITION OF DONE)
+Xây dựng mẫu doanh nghiệp phi tài chính niêm yết HOSE và phân ngành theo ICB
+Phục vụ nghiên cứu Quản trị lợi nhuận (Earnings Management) — kế thừa Nguyen, Kim & Ali (2024)
+Phiên bản tài liệu
+1.0
+Ngày lập
+[điền ngày]
+Người thực hiện / Bàn giao
+[điền tên]
+Trạng thái
+Phần lõi ĐÃ HOÀN THÀNH — còn 3 mục quyết định/điền (xem Mục 7)
+
+1. Mục tiêu của task
+Lập danh sách các doanh nghiệp phi tài chính niêm yết trên Sở Giao dịch Chứng khoán TP.HCM (HOSE), gán mỗi doanh nghiệp vào một ngành theo chuẩn ICB, và lập tài liệu mô tả phương pháp phân loại có thể trích dẫn. Sản phẩm này là bước chuẩn bị mẫu (sample construction) cho mô hình đo lường quản trị lợi nhuận bằng dồn tích bất thường (mô hình Jones điều chỉnh) ở giai đoạn sau.
+Tài liệu này mô tả những gì đã hoàn thành, cách tái lập, và những hạng mục còn lại để bất kỳ người tiếp nhận nào (kể cả không tham gia từ đầu) cũng có thể hoàn tất task.
+2. Bối cảnh dữ liệu (đọc kỹ trước khi chạy)
+Dữ liệu danh sách và phân ngành được lấy bằng thư viện Python vnstock. Thư viện này có nhiều nguồn (source); điểm mấu chốt cần hiểu:
+	•	Nguồn mặc định 'kbs' (KB Securities): CHẠY ĐƯỢC ổn định. Trả về bảng phân ngành riêng của KBS gồm 25 nhóm (mã số nguyên 1–29, tên tiếng Việt), KHÔNG phải mã ICB. Cột này nếu để tên 'icb_code' sẽ gây hiểu nhầm.
+	•	Nguồn 'vci' (Vietcap): trả về MÃ ICB THẬT (4 cấp), nhưng tại thời điểm thực hiện thường bị chặn lỗi 403 Forbidden từ IP của Google Colab. Lỗi 403 thường mang tính tạm thời theo IP.
+Do VCI bị 403, giải pháp đang dùng là lấy dữ liệu từ KBS rồi QUY ĐỔI 25 ngành KBS sang ngành cấp 1 ICB bằng một bảng ánh xạ cố định (xem Phụ lục A). Hệ quả: mẫu hiện có 7 nhóm ngành ICB (thiếu Dầu khí và Viễn thông, vì KBS không tách riêng hai ngành này).
+LƯU Ý: Nếu cần đủ 9 ngành ICB (tách riêng Dầu khí, Viễn thông), phải lấy ICB thật từ nguồn VCI. Thử chạy lại với runtime Colab mới vài lần để xin IP khác — 403 thường hết sau khi đổi IP.
+3. Các quyết định phương pháp đã chốt (và lý do)
+Quyết định
+Lý do / Căn cứ
+Sàn: chỉ HOSE
+Phạm vi nghiên cứu giới hạn ở HOSE.
+LOẠI định chế tài chính (ngân hàng, chứng khoán, bảo hiểm, tài chính khác)
+Cấu trúc vốn, chế độ kế toán và khung điều tiết khác biệt căn bản; thước đo dồn tích không so sánh được. Theo thông lệ và bài kế thừa.
+LOẠI bất động sản
+Đặc thù BCTC của BĐS (doanh thu theo tiến độ/bàn giao, tồn kho dự án lớn, TSCĐ hữu hình thấp) làm méo tham số mô hình Jones (vốn dựa trên doanh thu, phải thu, PPE). Loại để thước đo đồng nhất. (Khác bài gốc — bài gốc giữ BĐS — đây là cải tiến có chủ đích.)
+Chuẩn phân ngành: ICB
+Phù hợp mô hình Jones theo ngành (nhóm theo bản chất tài chính), tương thích văn liệu quốc tế, đủ chính danh thay cho NAICS của bài gốc. Khung ICB ít nhóm nên dễ thỏa ngưỡng ≥10 quan sát.
+Cấp phân ngành: ICB cấp 1
+Đủ thô để mỗi ngành có nhiều quan sát firm-year khi dựng panel.
+4. Sản phẩm bàn giao (Deliverables)
+Tên file
+Mô tả
+PHAN_LOAI_HOSE_hoan_chinh.py
+Script Python chạy trên Colab: lấy danh sách HOSE, lọc trái phiếu/None, loại tài chính + BĐS, quy đổi KBS→ICB cấp 1, xuất Excel. Ưu tiên VCI, tự fallback KBS.
+HOSE_phi_tai_chinh.xlsx
+Kết quả chạy: danh sách doanh nghiệp (sheet Toan_bo + Phi_tai_chinh + mỗi ngành 1 sheet). Cột: symbol, organ_name, nganh_goc (KBS), nganh_icb_cap1.
+Co_so_phan_loai_nganh_HOSE.xlsx
+Tài liệu phương pháp 6 sheet: Cơ sở phân loại; Phân ngành ICB; VSIC QĐ36/2025; Đối chiếu ICB–VSIC; Tài liệu trích dẫn; Ánh xạ KBS→ICB.
+5. Tiêu chí nghiệm thu (đã đạt)
+Tiêu chí
+Trạng thái
+Chỉ giữ phi tài chính; loại tài chính + bất động sản
+ĐẠT
+0 mã bất động sản lọt vào nhóm phi tài chính
+ĐẠT
+Kiểm tổng: 283 phi tài chính + 57 BĐS + 47 tài chính = 387
+ĐẠT
+Nhóm tài chính loại đúng: 21 NH + 20 CK + 5 BH + 1 TC khác
+ĐẠT
+3 mã thiếu ngành (ADG, YEG, CLC) đã gán tay
+ĐẠT
+Tài liệu mô tả khớp dữ liệu thật (nêu rõ KBS quy đổi ICB)
+ĐẠT
+Trích dẫn bài kế thừa + ràng buộc ≥10 quan sát firm-year
+ĐẠT
+Kết quả mẫu: 283 doanh nghiệp phi tài chính, phân bố 7 nhóm ICB cấp 1: Công nghiệp 124, Hàng tiêu dùng 56, Vật liệu cơ bản 33, Tiện ích cộng đồng 31, Dịch vụ tiêu dùng 19, Y tế 12, Công nghệ 8.
+6. Hướng dẫn tái lập (chạy lại từ đầu)
+	•	Mở Google Colab, tạo notebook mới.
+	•	Cell 1 — cài thư viện:  !pip install -q vnstock
+	•	Cell 2 — dán toàn bộ nội dung PHAN_LOAI_HOSE_hoan_chinh.py và chạy.
+	•	Đọc dòng in 'Nguồn dữ liệu:' — cho biết chạy bằng VCI (ICB thật, 9 nhóm) hay KBS (quy đổi, 7 nhóm).
+	•	Kiểm tra phần 'Phi tài chính theo ngành ICB cấp 1' và mục cảnh báo 'CHƯA RÕ' (nếu có thì bổ sung vào bảng GAN_TAY rồi chạy lại).
+	•	Tải file kết quả:  from google.colab import files; files.download('HOSE_phi_tai_chinh.xlsx')
+Tham số quan trọng ở đầu script: EXCLUDE_REAL_ESTATE = True (loại BĐS); NGAY_CHOT = '[dd/mm/yyyy]' (điền ngày chốt dữ liệu).
+7. Hạng mục còn mở — cần người tiếp nhận xử lý
+#
+Hạng mục
+Hành động cụ thể
+1
+Điền ngày chốt dữ liệu
+Sửa NGAY_CHOT trong code và ô [dd/mm/yyyy] trong file Excel (sheet 'Co so phan loai', mục 8).
+2
+Chấp nhận 7 nhóm hay cần 9 nhóm ICB
+Nếu chấp nhận 7 nhóm: giữ nguyên (đã ghi chú trong Excel). Nếu cần 9 nhóm (tách Dầu khí, Viễn thông): chạy lại bằng nguồn VCI (đổi runtime Colab để xin IP mới cho hết 403).
+3
+Xác nhận chuẩn phân ngành với hội đồng
+Nếu hội đồng buộc dùng chuẩn pháp quy VN → chuyển sang VSIC (QĐ 36/2025). Mặc định hiện tại là ICB.
+8. Ngoài phạm vi (giai đoạn nghiên cứu tiếp theo)
+Các bước sau KHÔNG thuộc task này, thực hiện sau khi đã có mẫu:
+	•	Dựng dữ liệu bảng nhiều năm (firm-year) cho 283 doanh nghiệp: thu thập income statement & cash flow để tính total accruals.
+	•	Áp ngưỡng ≥10 quan sát firm-year mỗi ngành (lưu ý: áp trên PANEL nhiều năm, KHÔNG áp trên danh sách 283 mã hiện tại vì đó là một lát cắt).
+	•	Ước lượng mô hình Jones điều chỉnh theo từng ngành (cross-sectional) → tính dồn tích bất thường |DAC| làm thước đo quản trị lợi nhuận (phương trình 2–4 trong bài kế thừa).
+Phụ lục A. Bảng ánh xạ 25 ngành KBS → ICB cấp 1
+Dùng khi chạy bằng nguồn KBS. Dấu (*) = ánh xạ gần đúng, nên rà soát.
+Mã KBS
+Ngành KBS
+Phân loại NC
+ICB cấp 1
+2
+Bảo hiểm
+LOẠI (tài chính)
+—
+3
+Bất động sản
+LOẠI (BĐS)
+—
+5
+Chứng khoán
+LOẠI (tài chính)
+—
+11
+Ngân hàng
+LOẠI (tài chính)
+—
+29
+Tài chính khác
+LOẠI (tài chính)
+—
+1
+Bán buôn
+Phi tài chính
+Công nghiệp (*)
+6
+Công nghệ và thông tin
+Phi tài chính
+Công nghệ
+7
+Bán lẻ
+Phi tài chính
+Dịch vụ tiêu dùng
+8
+Chăm sóc sức khỏe
+Phi tài chính
+Y tế
+10
+Khai khoáng
+Phi tài chính
+Vật liệu cơ bản
+12
+Nông - Lâm - Ngư
+Phi tài chính
+Hàng tiêu dùng
+15
+SX Thiết bị, máy móc
+Phi tài chính
+Công nghiệp
+16
+SX Hàng gia dụng
+Phi tài chính
+Hàng tiêu dùng
+17
+Sản phẩm cao su
+Phi tài chính
+Hàng tiêu dùng (*)
+18
+SX Nhựa - Hóa chất
+Phi tài chính
+Vật liệu cơ bản
+19
+Thực phẩm - Đồ uống
+Phi tài chính
+Hàng tiêu dùng
+20
+Chế biến Thủy sản
+Phi tài chính
+Hàng tiêu dùng
+21
+Vật liệu xây dựng
+Phi tài chính
+Công nghiệp
+22
+Tiện ích
+Phi tài chính
+Tiện ích cộng đồng
+23
+Vận tải - kho bãi
+Phi tài chính
+Công nghiệp
+24
+Xây dựng
+Phi tài chính
+Công nghiệp
+25
+Dịch vụ lưu trú, ăn uống, giải trí
+Phi tài chính
+Dịch vụ tiêu dùng
+26
+SX Phụ trợ
+Phi tài chính
+Công nghiệp (*)
+27
+Thiết bị điện
+Phi tài chính
+Công nghiệp
+28
+Dịch vụ tư vấn, hỗ trợ
+Phi tài chính
+Công nghiệp (*)
