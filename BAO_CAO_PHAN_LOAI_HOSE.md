@@ -3,6 +3,7 @@
 > Sản phẩm chuẩn bị mẫu cho nghiên cứu Quản trị lợi nhuận (Earnings Management) — kế thừa Nguyen, Kim & Ali (2024).
 
 - **Ngày lập báo cáo:** 03/06/2026
+- **Ngày chốt dữ liệu (NGAY_CHOT):** 03/06/2026
 - **Sàn:** HOSE (HSX)
 - **Nguồn dữ liệu:** vnstock — KBS (quy đổi sang ICB cấp 1, 7 nhóm)
 - **Chuẩn phân ngành:** ICB cấp 1

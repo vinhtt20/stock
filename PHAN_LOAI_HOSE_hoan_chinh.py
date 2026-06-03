@@ -42,7 +42,7 @@ RESERVED_SHEETS = ("Toan_bo", "Phi_tai_chinh")
 # THAM SỐ QUAN TRỌNG (operator chỉnh ở đây trước khi chạy)
 # ---------------------------------------------------------------------------
 EXCLUDE_REAL_ESTATE = True  # True = loại bất động sản khỏi mẫu phi tài chính.
-NGAY_CHOT = "[dd/mm/yyyy]"  # Điền ngày chốt dữ liệu (vd "30/06/2025").
+NGAY_CHOT = "03/06/2026"  # Ngày chốt dữ liệu.
 
 # Tên cột mã ngành KBS trong bảng symbols_by_industries(source="kbs").
 # CHƯA xác nhận được khi chưa chạy live -> để giá trị đoán hợp lý, có thể
